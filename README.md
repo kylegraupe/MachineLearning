@@ -12,3 +12,5 @@ This portfolio includes:
   1) PyTorch ML program that compares performances using different activation functions in Neural Networks. 
   2) PyTorch ML program that compares performances of different size and shape Neural Networks. 
   3) PyTorch ML program that compares performances using neuron dropout versus no neuron dropout. 
+  
+  And more to come!
