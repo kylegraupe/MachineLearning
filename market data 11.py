@@ -1,31 +1,40 @@
 """THIS FILE IS STILL A WORK IN PROGRESS"""
+
 # THIS FILE TAKES IN HISTORICAL OPTIONS DATA FOR $AAPL, CONVERTS IT TO PANDAS DATAFRAME, IMPUTES ZEROES FOR MISSING
-# VALUES, USES MINMAXSCALER AND PREDICTS PUT PREMIUMS.
+# VALUES, SCALES THE TRAINING DATA AND PREDICTS PUT PREMIUMS.
 
 # Revision Updates:
 # Included Binomial Model for Puts in training set. This creates two different options for the price at expiration
 # based on variables. Maybe try a binary classifier for in the money vs. out of the money?
 
 # Notes:
-# an underscore is used to denote the variables that are used as inputs in the functions so the variables are not
+# An underscore is used to denote the variables that are used as inputs in the functions so the variables are not
 # disturbed later in the program.
 # Many of the 'actual' values are zeros as you can see in the output plot 'actual vs. predicted'. Later iterations may
 # try to reduce the scope of the program to eliminate the strikes that will likely end without value (larger than some
 # probability threshold)
 # Maybe also try to predict future volatility rather than the actual price of the premium.
-
 # Dropped options past 60 days exp.
-# If negative prediction does that mean it will expire worthless (essentially a zero prediction? maybe use NN with
-# ReLU Activation function to combat this?)
 
-# How does a stock split affect this program?
 
+# FURTHER ITERATIONS:
+# Implement Time-series NN architecture such as LSTM, RNN, GRU, Attention Mechanism, etc.
+# Implement optimized data storing and accessing methods.
+# Implement GPU accelerating using tensorflow.
 # Need to incorporate current price and price at expiration in dataset. Currently not predicting the price at a point,
 # but what the current price should be.
-
 # Incorporate price at exp in the dataset and binomial model in the dataset. maybe one column for each option (up/down)
 
-#
+
+
+# QUESTIONS:
+# How does a stock split affect this program?
+# If negative prediction does that mean it will expire worthless (essentially a zero prediction? maybe use NN with
+# ReLU Activation function on output layer to combat this?)
+
+
+
+
 
 """THIS FILE IS STILL A WORK IN PROGRESS"""
 import pandas as pd
