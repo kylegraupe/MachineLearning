@@ -11,7 +11,7 @@
 # based on variables. Maybe try a binary classifier for in the money vs. out of the money?
 
 # PREVIOUS REVISIONS:
-# Basic ML algorithms were severly underfitted and did not generalize well to new instances. 
+# Basic ML algorithms were severly underfitted and did not generalize well to new instances.
 
 # NOTES:
 # An underscore is used to denote the variables that are used as inputs in the functions so the variables are not
@@ -31,16 +31,13 @@
 # but what the current price should be.
 # Incorporate price at exp in the dataset and binomial model in the dataset. maybe one column for each option (up/down)
 # Place most lines of code inside of a function or class, as necessary.
-
+# ******CLEAN UP******
 
 
 # QUESTIONS:
 # How does a stock split affect this program?
 # If negative prediction does that mean it will expire worthless (essentially a zero prediction? maybe use NN with
 # ReLU Activation function on output layer to combat this?)
-
-
-
 
 
 """THIS FILE IS STILL A WORK IN PROGRESS"""
@@ -157,7 +154,8 @@ def bin_model_inputs(S_, K_, Up_, Dn_, prob_up_, prob_dn_, rfr_):
 
 def drop_columns(df):
     """This function removes columns that are unnecessary inputs for the model or have low correlation to the premium.
-    This step will be revisited using other dimensionality reduction algorithms for regression tasks."""
+    This step will be revisited using other dimensionality reduction algorithms for regression tasks. Can probably
+    iterate through a list to reduce the size of this function. Will be implemented in further iterations."""
     df = df.drop("[QUOTE_UNIXTIME]", axis=1)
     df = df.drop("[QUOTE_READTIME]", axis=1)
     df = df.drop("[QUOTE_DATE]", axis=1)
@@ -189,6 +187,8 @@ def feature_extraction(market_data_, p_up_, p_dn_, U_, D_, r_):
     # Create new data for predictions. We will be predicting the premium of Puts.
     market_data_['P_int_value'] = abs(market_data_['[UNDERLYING_LAST]'] - market_data_['[STRIKE]'])
     market_data_['P_ext_value'] = abs(market_data_['[P_LAST]'] - market_data_['P_int_value'])
+
+    # Below features will be used in binary model.
     market_data_['exp_up'] = market_data_['[UNDERLYING_LAST]'] * U_
     market_data_['exp_dn'] = market_data_['[UNDERLYING_LAST]'] * D_
     market_data_['up_temp'] = market_data_['[STRIKE]'] - market_data_['exp_up']
@@ -215,43 +215,45 @@ def expected_move_threshold_pct():
 
 
 """THIS FILE IS STILL A WORK IN PROGRESS"""
-def add_binary_class(market_data_):
-    market_data_['[EXPIRE_DATE]'].astype(str)
-    market_data_['[EXPIRE_DATE]'] = pd.to_datetime(market_data_['[EXPIRE_DATE]'], format='%Y/%m/%d')
-    market_data_['[EXPIRE_DATE]'].astype(str)
-    exp_list = market_data_['[EXPIRE_DATE]'].to_list()
-    a = []
-    for x in exp_list:
-        if x not in a:
-            a.append(x)
 
-    market_data_['itm_exp'] = 0
-    market_data_.sort_values(by=['[EXPIRE_DATE]', '[DTE]'], ascending=False)
-    market_data_.dropna()
 
-    strike_col_ix = market_data_.columns.get_loc("[STRIKE]")
-    dte_col_ix = market_data_.columns.get_loc("[DTE]")
-    p_last_col_ix = market_data_.columns.get_loc("[P_LAST]")
-    exp_col_ix = market_data_.columns.get_loc("[EXPIRE_DATE]")
-    itm_col_ix = market_data_.columns.get_loc("itm_exp")
-
-    for i in range(len(market_data_['[EXPIRE_DATE]'])):
-        if market_data_.iat[i, dte_col_ix] == 0 and market_data_.iat[i, p_last_col_ix] > 0.01:
-            market_data_.iat[i, itm_col_ix] = 1
-        else:
-            market_data_.iat[i, itm_col_ix] = 0
-
-    for j in range(len(market_data_['[EXPIRE_DATE]'])):
-        for k in range(j + 1, len(market_data_['[EXPIRE_DATE]'])):
-            if market_data_.iat[j, exp_col_ix] == market_data_.iat[k, exp_col_ix] and market_data_.iat[
-                j, strike_col_ix] == market_data_.iat[k, strike_col_ix] and market_data_.iat[k, dte_col_ix] > 0 and \
-                    market_data_.iat[j, itm_col_ix] == 1:
-                market_data_.iat[k, itm_col_ix] = 1
-                break
-            else:
-                market_data_.iat[k, itm_col_ix] = 0
-
-    return market_data_
+# def add_binary_class(market_data_):
+#     market_data_['[EXPIRE_DATE]'].astype(str)
+#     market_data_['[EXPIRE_DATE]'] = pd.to_datetime(market_data_['[EXPIRE_DATE]'], format='%Y/%m/%d')
+#     market_data_['[EXPIRE_DATE]'].astype(str)
+#     exp_list = market_data_['[EXPIRE_DATE]'].to_list()
+#     a = []
+#     for x in exp_list:
+#         if x not in a:
+#             a.append(x)
+#
+#     market_data_['itm_exp'] = 0
+#     market_data_.sort_values(by=['[EXPIRE_DATE]', '[DTE]'], ascending=False)
+#     market_data_.dropna()
+#
+#     strike_col_ix = market_data_.columns.get_loc("[STRIKE]")
+#     dte_col_ix = market_data_.columns.get_loc("[DTE]")
+#     p_last_col_ix = market_data_.columns.get_loc("[P_LAST]")
+#     exp_col_ix = market_data_.columns.get_loc("[EXPIRE_DATE]")
+#     itm_col_ix = market_data_.columns.get_loc("itm_exp")
+#
+#     for i in range(len(market_data_['[EXPIRE_DATE]'])):
+#         if market_data_.iat[i, dte_col_ix] == 0 and market_data_.iat[i, p_last_col_ix] > 0.01:
+#             market_data_.iat[i, itm_col_ix] = 1
+#         else:
+#             market_data_.iat[i, itm_col_ix] = 0
+#
+#     for j in range(len(market_data_['[EXPIRE_DATE]'])):
+#         for k in range(j + 1, len(market_data_['[EXPIRE_DATE]'])):
+#             if market_data_.iat[j, exp_col_ix] == market_data_.iat[k, exp_col_ix] and market_data_.iat[
+#                 j, strike_col_ix] == market_data_.iat[k, strike_col_ix] and market_data_.iat[k, dte_col_ix] > 0 and \
+#                     market_data_.iat[j, itm_col_ix] == 1:
+#                 market_data_.iat[k, itm_col_ix] = 1
+#                 break
+#             else:
+#                 market_data_.iat[k, itm_col_ix] = 0
+#
+#     return market_data_
 
 
 # def remove_far_out_of_money(market_data_, col_name='[UNDERLYING_LAST]', threshold=live_price - (live_price*expected_pct)):
@@ -264,7 +266,11 @@ def add_binary_class(market_data_):
 
 def train_val(market_data_):
     """This function takes in the processed market data and creates training and validation sets. It then copies the
-    training sets as to not taint the original dataset during training."""
+    training sets as to not taint the original dataset during training.
+
+    Future iterations will include a train, test, and validation. These will then be plotted against each other
+    to show the improvement (or not) during training. This will help to visualize if the model is able to
+    generalize well to new instances."""
     # Create X and y dataset for splitting the data into test and trains sets. X for train and y for validation.
     X = market_data_.iloc[:, [0, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 19, 20, 22]]
     y = market_data_.iloc[:, [6]]  # Target data for P_Last
@@ -283,8 +289,8 @@ def train_val(market_data_):
 def data_prep(market_data_X_train_, market_data_X_val_, market_data_y_train_, market_data_y_val_, user_array_):
     """This function performs processing on the market data. It drops rows where there are missing values and scales and
     fits the training data. It is in progress to determine whether missing values should be dropped or filled with a
-    zero value. Performance during validation will determine this. The working datasets are then converted back into
-    pandas dataframes. It also reshapes the user inputs and creates a pandas dataframe."""
+    zero (or mean, median, etc.) value. Performance during training will determine this. The working datasets are then converted back into
+    pandas dataframes. It also reshapes the user inputs and creates a pandas dataframe for the use in the prediction step."""
     # Drop rows where values are missing.
     market_data_X_train_.dropna()
     market_data_y_train_.dropna()
@@ -327,7 +333,9 @@ def data_prep(market_data_X_train_, market_data_X_val_, market_data_y_train_, ma
 
 
 def mlp(market_data_transform_x_train_, market_data_transform_x_val_, market_data_transform_y_train_, user_df_):
-    """This function uses a MultiLayer Perceptron with a grid search for determining model hyperparameters."""
+    """This function uses a MultiLayer Perceptron with a grid search for determining model hyperparameters.
+
+    Will be using other architectures in future iterations."""
 
     param_grid_mlp = [
         {'activation': ['identity', 'logistic', 'tanh', 'relu'], 'solver': ['lbfgs', 'sgd', 'adam'],
@@ -359,7 +367,7 @@ def errors(mlp_predictions_, market_data_transform_y_val_):
 
 
 def plots(mlp_predictions_, market_data_transform_y_val_):
-    """This function plots the ... is a work in progress."""
+    """This function plots predicted vs actual values against each other. It is a work in progress."""
     fig, ax = plt.subplots()
     # xy = np.vstack([mlp_predictions_, market_data_transform_y_val_.values.ravel()])
     # z = gaussian_kde(xy)(xy)
@@ -375,17 +383,19 @@ def plots(mlp_predictions_, market_data_transform_y_val_):
 
 """THIS FILE IS STILL A WORK IN PROGRESS"""
 if __name__ == '__main__':
+
     # USER: Only input values here.
     ticker = "aapl"
-    strike_price = 165  # Choose the strike price you wish to analyze. Cannot be less than 10% below current price.
-    risk_free_rate = 0.015  # Found online
-    p_up = 0.6
-    p_dn = 0.4
+    strike_price = 165  # Choose the strike price you wish to analyze. Make sure it is on the option chain**
+    risk_free_rate = 0.015  # Found online, implement a way to automate this step.
+    p_up = 0.6 # Arbitrary values.
+    p_dn = 0.4 # Arbitrary values
     U = 1.25
     D = 1 / U
 
-    month = 11
-    day = 12
+    # Exp date
+    month = 12
+    day = 17
     year = 2021
 
     exp_date = str(month) + "/" + str(day) + "/" + str(year)
@@ -414,7 +424,7 @@ if __name__ == '__main__':
     user_array = np.array(user_input)
 
     # GET THE DATA (change path if this was sent to you)
-    csv_path = '/Users/kylegraupe/Documents/Python/Machine Learning/Market ML Project/CSV working/CSV_working.csv'
+    csv_path = 'D:\Pycharm Projects\Working\CSV_working.csv'
     df = pd.read_csv(csv_path, skipinitialspace=True)
     df.reset_index()
     df.columns.astype(str)
@@ -428,9 +438,9 @@ if __name__ == '__main__':
 
     market_data = remove_long_exp(market_data)
 
-    market_data = add_binary_class(market_data)
+    # market_data = add_binary_class(market_data)
 
-    csv_path_2 = "/Users/kylegraupe/Documents/Python/Machine Learning/Market ML Project/Transformed CSV/marketdata.csv"
+    csv_path_2 = "D:\Pycharm Projects\Working\working_transformed.csv"
     csv_2 = market_data.to_csv(path_or_buf=csv_path_2, index=False, encoding='utf-8-sig')
 
     market_data_X_train, market_data_X_val, market_data_y_train, market_data_y_val, X_train, X_validation, y_train, y_validation = train_val(
