@@ -4,7 +4,7 @@
 
 # SCOPE
 # This script takes historical options data scraped from Yahoo Finance, creates an options chain using Pandas, processes
-# the data, and trains various ML models to predict the premium of $AAPL derivates. (Regression)
+# the data, and trains various ML models to predict the premium of $AAPL derivatives. (Regression)
 
 # REVISION UPDATES:
 # Included Binomial Model for Puts in training set. This creates two different options for the price at expiration
@@ -133,7 +133,10 @@ def inputs(chain_, strike_ix_, strike_price_):
 
     return bid, ask, volume, int_value, ext_value, strike_dist_pct
 
+
 """THIS FILE IS STILL A WORK IN PROGRESS"""
+
+
 def bin_model_inputs(S_, K_, Up_, Dn_, prob_up_, prob_dn_, rfr_):
     """This function is a work in progress implementation of the binary model used to price american derivatives using
     a binary tree approach."""
@@ -151,34 +154,19 @@ def bin_model_inputs(S_, K_, Up_, Dn_, prob_up_, prob_dn_, rfr_):
 # PREPARE THE DATA
 
 # Drop columns. I have decided these features are not important, or are represented in a similar column.
-
-def drop_columns(df):
+def drop_columns(df_):
     """This function removes columns that are unnecessary inputs for the model or have low correlation to the premium.
-    This step will be revisited using other dimensionality reduction algorithms for regression tasks. Can probably
-    iterate through a list to reduce the size of this function. Will be implemented in further iterations."""
-    df = df.drop("[QUOTE_UNIXTIME]", axis=1)
-    df = df.drop("[QUOTE_READTIME]", axis=1)
-    df = df.drop("[QUOTE_DATE]", axis=1)
-    df = df.drop("[QUOTE_TIME_HOURS]", axis=1)
-    # df = df.drop("[EXPIRE_DATE]", axis=1)
-    df = df.drop("[EXPIRE_UNIX]", axis=1)
-    df = df.drop("[STRIKE_DISTANCE]", axis=1)
-    df = df.drop("[C_SIZE]", axis=1)
-    df = df.drop("[P_SIZE]", axis=1)
-    df = df.drop("[C_DELTA]", axis=1)
-    df = df.drop("[C_GAMMA]", axis=1)
-    df = df.drop("[C_VEGA]", axis=1)
-    df = df.drop("[C_THETA]", axis=1)
-    df = df.drop("[C_RHO]", axis=1)
-    df = df.drop("[C_IV]", axis=1)
-    df = df.drop("[C_VOLUME]", axis=1)
-    df = df.drop("[C_LAST]", axis=1)
-    df = df.drop("[C_BID]", axis=1)
-    df = df.drop("[C_ASK]", axis=1)
-    df = df.drop("[P_THETA]", axis=1)
-    df = df.drop("[P_GAMMA]", axis=1)
-    df = df.drop("[P_VEGA]", axis=1)
-    return df
+    This step will be revisited using other dimensionality reduction algorithms for regression tasks."""
+
+    drop_list = ["[QUOTE_UNIXTIME]", "[QUOTE_READTIME]", "[QUOTE_DATE]", "[QUOTE_TIME_HOURS]", "[EXPIRE_UNIX]",
+                 "[STRIKE_DISTANCE]", "[C_SIZE]", "[P_SIZE]", "[C_DELTA]", "[C_GAMMA]", "[C_VEGA]",
+                 "[C_THETA]", "[C_RHO]", "[C_IV]", "[C_VOLUME]", "[C_LAST]", "[C_BID]", "[C_ASK]", "[P_THETA]",
+                 "[P_GAMMA]", "[P_VEGA]"]
+
+    for i in drop_list:
+        df_ = df_.drop(i, axis=1)
+
+    return df_
 
 
 def feature_extraction(market_data_, p_up_, p_dn_, U_, D_, r_):
@@ -383,13 +371,12 @@ def plots(mlp_predictions_, market_data_transform_y_val_):
 
 """THIS FILE IS STILL A WORK IN PROGRESS"""
 if __name__ == '__main__':
-
     # USER: Only input values here.
     ticker = "aapl"
     strike_price = 165  # Choose the strike price you wish to analyze. Make sure it is on the option chain**
     risk_free_rate = 0.015  # Found online, implement a way to automate this step.
-    p_up = 0.6 # Arbitrary values.
-    p_dn = 0.4 # Arbitrary values
+    p_up = 0.6  # Arbitrary values.
+    p_dn = 0.4  # Arbitrary values
     U = 1.25
     D = 1 / U
 
