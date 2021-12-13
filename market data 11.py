@@ -1,13 +1,19 @@
 """THIS FILE IS STILL A WORK IN PROGRESS"""
 
-# THIS FILE TAKES IN HISTORICAL OPTIONS DATA FOR $AAPL, CONVERTS IT TO PANDAS DATAFRAME, IMPUTES ZEROES FOR MISSING
-# VALUES, SCALES THE TRAINING DATA AND PREDICTS PUT PREMIUMS.
+# The objective of this project is to use ML in a real world use case and to teach me the complexity of a ML pipeline.
 
-# Revision Updates:
+# SCOPE
+# This script takes historical options data scraped from Yahoo Finance, creates an options chain using Pandas, processes
+# the data, and trains various ML models to predict the premium of $AAPL derivates. (Regression)
+
+# REVISION UPDATES:
 # Included Binomial Model for Puts in training set. This creates two different options for the price at expiration
 # based on variables. Maybe try a binary classifier for in the money vs. out of the money?
 
-# Notes:
+# PREVIOUS REVISIONS:
+# Basic ML algorithms were severly underfitted and did not generalize well to new instances. 
+
+# NOTES:
 # An underscore is used to denote the variables that are used as inputs in the functions so the variables are not
 # disturbed later in the program.
 # Many of the 'actual' values are zeros as you can see in the output plot 'actual vs. predicted'. Later iterations may
@@ -24,6 +30,7 @@
 # Need to incorporate current price and price at expiration in dataset. Currently not predicting the price at a point,
 # but what the current price should be.
 # Incorporate price at exp in the dataset and binomial model in the dataset. maybe one column for each option (up/down)
+# Place most lines of code inside of a function or class, as necessary.
 
 
 
