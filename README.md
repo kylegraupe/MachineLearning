@@ -9,10 +9,11 @@ industry standards.
 I draw inspiration from some of the labs in those courses to create these programs as practice. 
 
 This portfolio includes:
-  1) IBM AI Engineering Specialization Professional Certificat capstone project. It compares two pretrained neural networks, VGG16 and ResNet50.
+  1) IBM AI Engineering Specialization Professional Certificat capstone project. It compares two pretrained neural networks, VGG16 and ResNet50. It uses GPU acceleration through
+     the cuda toolkit.
   2) A ML program that I have been working on to predict the premium of an option premium, specifically the premium of a put contract. (Work in Progress).
   3) A simple MNIST Classifier using Neural Networks in Keras.
-  4) 
+  4) A simple MNIST Fashion classifier using Neural Networks in Keras.
   5) PyTorch ML program that compares performances using different activation functions in Neural Networks. 
   6) PyTorch ML program that compares performances of different size and shape Neural Networks. 
   7) PyTorch ML program that compares performances using neuron dropout versus no neuron dropout. 
