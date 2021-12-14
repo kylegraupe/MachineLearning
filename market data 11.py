@@ -294,7 +294,7 @@ def data_prep(market_data_X_train_, market_data_X_val_, market_data_y_train_, ma
     imputer_2.fit(market_data_y_train_)
     imputer_2.fit(market_data_y_val_)
 
-    # Scale data
+    # Scale data -- Cannot scale y columns. Fix.
     scaler = MinMaxScaler()
     a = scaler.fit_transform(market_data_X_train_.to_numpy())
     b = scaler.fit_transform(market_data_X_val_.to_numpy())
