@@ -81,7 +81,7 @@ if __name__ == '__main__':
     print("========================================")
     print(video.streams.filter(file_extension="mp4"))  # Shows list of all available streams.
     print("========================================")
-    video.streams.get_by_itag(18).download()  # Download individual stream by the "itag"
+    video.streams.get_by_itag(18).download()  # Download individual stream by the "itag": set for 360p currently.
     print(video.title)
     title = str(video.title)
     file = title + ".mp4"
