@@ -4,7 +4,7 @@ This repository is meant to serve as a portfolio of the different ML projects an
 Feel free to look at my projects. I do not keep my intellectual property on this site.
 
 Overview:
-  Over the last several months, I have been working towards my mastery of the machine learning discipline. Although, I have a long way to go before I am an expert in the field, I am making steady progress. I am working to transition from my background in aerospace and marine industries to software and machine learning. Although this is not going to be an easy task, I am willing to put in the work to reinvent myself as a young professional. Below are some of the things that I am working on or have completed on this journey. Feel free to take a look and do not hesitate to reach out if you have any questions or would like to contact me regarding employment opportunities. 
+Over the last several months, I have been working towards my mastery of the machine learning discipline. Although, I have a long way to go before I am an expert in the field, I am making steady progress. I am working to transition from my background in aerospace and marine industries to software and machine learning. Although this is not going to be an easy task, I am willing to put in the work to reinvent myself as a young professional. Below are some of the things that I am working on or have completed on this journey. Feel free to take a look and do not hesitate to reach out if you have any questions or would like to contact me regarding employment opportunities. 
 
 Books:
   1) I have read "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow" by Aurelian Geron. I am in the process of bringing those examples into this    repository.
