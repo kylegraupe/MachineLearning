@@ -11,6 +11,12 @@ from keras.applications.vgg16 import preprocess_input
 import numpy as np
 import wget
 import zipfile
+import time
+from tensorflow.keras.callbacks import TensorBoard
+import datetime
+
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tensorflow.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 
 def get_data():
@@ -83,16 +89,16 @@ def create_vgg16():
 
     steps_per_epoch_training = len(train_generator)
     steps_per_epoch_validation = len(validation_generator)
-    num_epochs = 2
+    num_epochs = 10
 
     # Part 1.6: Fit the model on the data.
-    fit_history = model.fit(
+    model.fit(
         train_generator,
         steps_per_epoch=steps_per_epoch_training,
         epochs=num_epochs,
         validation_data=validation_generator,
         validation_steps=steps_per_epoch_validation,
-        verbose=1,
+        verbose=1, callbacks=[tensorboard_callback]
     )
 
     model.save('classifier_VGG16_model.h5')
@@ -115,7 +121,7 @@ def eval_model():
         preprocessing_function=preprocess_input,
     )
     test_generator = data_generator.flow_from_directory(
-        r'D:\Pycharm Projects\Keras Capstone\concrete_data_week4\test',
+        r'D:\Pycharm Projects\Keras\Keras Capstone\concrete_data_week4\test',
         target_size=(image_resize, image_resize),
         shuffle=False)
 
@@ -179,3 +185,6 @@ if __name__ == '__main__':
     create_vgg16()
     resnet, vgg16, test_gen = eval_model()
     predictions(resnet, vgg16, test_gen)
+
+    # In command prompt, run "tensorboad --logdir logs\fit" and copy the address to view tensorboard
+    # output in a browser. make sure to run in the current directory. "D:\Pycharm Projects\Keras\Keras Capstone"
