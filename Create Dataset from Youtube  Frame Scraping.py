@@ -1,4 +1,4 @@
-"""The purpose of this script is to create a dataset of images easily by scraping Youtube videos and extracting
+"""The purpose of this script is to create a dataset of images easily by scraping YouTube videos and extracting
 frames from them. Run this script on several YouTube videos to collect your dataset before processing."""
 
 # Import Libraries
@@ -72,25 +72,43 @@ def get_youtube_mp4(vid_url_):
     return video_
 
 
-if __name__ == '__main__':
-    url = 'https://www.youtube.com/watch?v=FReibAoQaRA'  # Enter the URL of the video here.
-    video = get_youtube_mp4(url)
+def url_list(input_list_, image_class_):
     frame_spacing = 1000
-    print("========================================")
-    print("Video Length: " + str(video.length) + "\n")  # Length of the video in seconds
-    print("========================================")
-    print(video.streams.filter(file_extension="mp4"))  # Shows list of all available streams.
-    print("========================================")
-    video.streams.get_by_itag(18).download()  # Download individual stream by the "itag": set for 360p currently.
-    print(video.title)
-    title = str(video.title)
-    file = title + ".mp4"
-    fe = FrameExtractor(file)  # Video mp4 file you want to extract
-    # print(fe.get_video_duration())
+    for i in input_list_:
+        j = 0
+        video = get_youtube_mp4(i)
+        video.streams.get_by_itag(18).download()  # Download individual stream by the "itag"
 
-    fe.get_n_images(every_x_frame=frame_spacing)
-    fe.extract_frames(every_x_frame=frame_spacing,
-                      img_name='dog',
-                      dest_path='dog_images_2')
+        title = str(video.title)
+        file = title + ".mp4"
 
-    show_image('dog_images_2/dog_0.jpg')
+        fe = FrameExtractor(file)  # Video mp4 file you want to extract
+        fe.get_n_images(every_x_frame=frame_spacing)
+        fe.extract_frames(every_x_frame=frame_spacing,
+                          img_name=image_class_,
+                          dest_path=image_class_ + '_images_' + str(j))  # Change image names and destinations
+
+        j += 1
+
+
+def inputs():
+    # creating an empty list
+    url_list_input = []
+
+    # number of elements as input
+    n = int(input("Enter number of URLs to be input: "))
+
+    # iterating till the range
+    for i in range(0, n):
+        ele = str(input("URL " + str(i+1) + ": "))
+
+        url_list_input.append(ele)  # adding the element
+
+    image_class_ = str(input("Enter the name you would like to use for the image class: "))
+
+    return url_list_input, image_class_
+
+
+if __name__ == '__main__':
+    input_list, image_class = inputs()
+    url_list(input_list, image_class)
