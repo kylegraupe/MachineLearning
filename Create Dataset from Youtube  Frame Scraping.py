@@ -73,10 +73,9 @@ def get_youtube_mp4(vid_url_):
 
 
 if __name__ == '__main__':
-    """PART 1: Run this part first"""
     url = 'https://www.youtube.com/watch?v=FReibAoQaRA'  # Enter the URL of the video here.
     video = get_youtube_mp4(url)
-    frame_spacing = 100
+    frame_spacing = 1000
     print("========================================")
     print("Video Length: " + str(video.length) + "\n")  # Length of the video in seconds
     print("========================================")
