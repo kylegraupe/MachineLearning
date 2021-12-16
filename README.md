@@ -22,5 +22,6 @@ This portfolio includes:
   5) PyTorch ML program that compares performances using different activation functions in Neural Networks. 
   6) PyTorch ML program that compares performances of different size and shape Neural Networks. 
   7) PyTorch ML program that compares performances using neuron dropout versus no neuron dropout. 
+  8) Simple Python script that downloads images from youtube videos. This will be used to create datasets for computer vision projects.
   
   And more to come!
