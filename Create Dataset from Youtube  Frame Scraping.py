@@ -76,7 +76,7 @@ def url_list(input_list_, image_class_, frame_spacing_):
     for i in input_list_:
         j = 0
         video = get_youtube_mp4(i)
-        video.streams.get_by_itag(18).download()  # Download individual stream by the "itag"
+        video.streams.get_by_itag(18).download()  # Download individual stream by the "itag". 340p is currently selected
 
         title = str(video.title)
         file = title + ".mp4"
@@ -116,6 +116,6 @@ if __name__ == '__main__':
     to name the individual images. The script will ask how many frames in between captures he or she would like (the
     higher this number, the lower the number of images captured). A folder will be created in the current working
     directory with the frames captured from the video. Enjoy!"""
-    
+
     input_list, image_class, spacing = inputs()
     url_list(input_list, image_class, spacing)
