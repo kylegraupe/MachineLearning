@@ -72,8 +72,7 @@ def get_youtube_mp4(vid_url_):
     return video_
 
 
-def url_list(input_list_, image_class_):
-    frame_spacing = 1000
+def url_list(input_list_, image_class_, frame_spacing_):
     for i in input_list_:
         j = 0
         video = get_youtube_mp4(i)
@@ -83,8 +82,8 @@ def url_list(input_list_, image_class_):
         file = title + ".mp4"
 
         fe = FrameExtractor(file)  # Video mp4 file you want to extract
-        fe.get_n_images(every_x_frame=frame_spacing)
-        fe.extract_frames(every_x_frame=frame_spacing,
+        fe.get_n_images(every_x_frame=frame_spacing_)
+        fe.extract_frames(every_x_frame=frame_spacing_,
                           img_name=image_class_,
                           dest_path=image_class_ + '_images_' + str(j))  # Change image names and destinations
 
@@ -105,10 +104,18 @@ def inputs():
         url_list_input.append(ele)  # adding the element
 
     image_class_ = str(input("Enter the name you would like to use for the image class: "))
+    spacing_ = int(input("Enter the number of frames between images you would like to use: "))
 
-    return url_list_input, image_class_
+    return url_list_input, image_class_, spacing_
 
 
 if __name__ == '__main__':
-    input_list, image_class = inputs()
-    url_list(input_list, image_class)
+    """Upon running the script, the user will be asked to input the number of URLs he or she will be using to 
+    generate the dataset. The user will then be prompted to separately input each video's URL. Then the script will
+    ask for the class of the image. This class will be used to name of the folder containing the images and 
+    to name the individual images. The script will ask how many frames in between captures he or she would like (the
+    higher this number, the lower the number of images captured). A folder will be created in the current working
+    directory with the frames captured from the video. Enjoy!"""
+    
+    input_list, image_class, spacing = inputs()
+    url_list(input_list, image_class, spacing)
