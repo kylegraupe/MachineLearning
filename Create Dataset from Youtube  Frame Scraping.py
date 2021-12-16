@@ -1,5 +1,5 @@
 """The purpose of this script is to create a dataset of images easily by scraping Youtube videos and extracting
-frames from them."""
+frames from them. Run this script on several YouTube videos to collect your dataset before processing."""
 
 # Import Libraries
 from pytube import YouTube
