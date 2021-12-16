@@ -73,21 +73,25 @@ def get_youtube_mp4(vid_url_):
 
 
 if __name__ == '__main__':
-    url = 'https://www.youtube.com/watch?v=KlmBCX4WUwY'  # Enter the URL of the video here.
+    """PART 1: Run this part first"""
+    url = 'https://www.youtube.com/watch?v=FReibAoQaRA'  # Enter the URL of the video here.
     video = get_youtube_mp4(url)
+    frame_spacing = 100
     print("========================================")
     print("Video Length: " + str(video.length) + "\n")  # Length of the video in seconds
     print("========================================")
     print(video.streams.filter(file_extension="mp4"))  # Shows list of all available streams.
     print("========================================")
     video.streams.get_by_itag(18).download()  # Download individual stream by the "itag"
+    print(video.title)
+    title = str(video.title)
+    file = title + ".mp4"
+    fe = FrameExtractor(file)  # Video mp4 file you want to extract
+    # print(fe.get_video_duration())
 
-    fe = FrameExtractor('Trust me Youll LAUGH with the FUNNIEST DOGS of 2021 - FUNNY DOG Videos.mp4')  # Video mp4 file you want to extract
-    print(fe.get_video_duration())
-
-    fe.get_n_images(every_x_frame=1000)
-    fe.extract_frames(every_x_frame=1000,
+    fe.get_n_images(every_x_frame=frame_spacing)
+    fe.extract_frames(every_x_frame=frame_spacing,
                       img_name='dog',
-                      dest_path='dog_images')
+                      dest_path='dog_images_2')
 
-    show_image('dog_images/dog_15.jpg')
+    show_image('dog_images_2/dog_0.jpg')
