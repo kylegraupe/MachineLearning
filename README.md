@@ -8,7 +8,7 @@ Over the last several months, I have been working towards my mastery of the mach
 
 Books:
   1) I have read "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow" by Aurelian Geron. I am in the process of bringing those examples into this    repository.
-  2) I next plan to read "Practical Machine Learning for Computer Vision" by Vallappia Lakshmanan.
+  2) I next plan to read "Practical Machine Learning for Computer Vision" by Valliappa Lakshmanan.
 
 Certificates:
   1) I recently took the IBM AI Engineering Professional Certificate courses through Coursera to demonstrate that my understanding of ML concepts is acceptable by 
